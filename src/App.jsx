@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 function App() {
-  const [nomeCompleto, setNomeCompleto] = useState("")
+  const nomeCompletoRef = useRef()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [specializzazione, setSpecializzazione] = useState("default")
-  const [anniEsperienza, setAnniEsperienza] = useState(0)
+  const specializzazioneRef = useRef()
+  const anniEsperienzaRef = useRef()
   const [descrizione, setDescrizione] = useState("")
 
   const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -14,21 +14,21 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (nomeCompleto.trim() === '' ||
+    if (nomeCompletoRef.current.value.trim() === '' ||
       username.trim() === '' ||
       password.trim() === '' ||
-      specializzazione.trim() === 'default' ||
-      anniEsperienza <= 0 ||
+      specializzazioneRef.current.value.trim() === 'default' ||
+      anniEsperienzaRef.current.value <= 0 ||
       descrizione.trim() === '') {
       console.error('Compila tutti i campi prima di inviare il form')
       return;
     }
     console.log(`
-      nome: ${nomeCompleto}
+      nome: ${nomeCompletoRef.current.value}
       cognome: ${username}
       password: ${password}
-      specializzazione: ${specializzazione}
-      anni di Esperienza: ${anniEsperienza}
+      specializzazione: ${specializzazioneRef.current.value}
+      anni di Esperienza: ${anniEsperienzaRef.current.value}
       descrizione: ${descrizione}
       `)
   }
@@ -70,8 +70,7 @@ function App() {
           <div>
             <input type="text"
               placeholder="Nome Completo"
-              value={nomeCompleto}
-              onChange={e => setNomeCompleto(e.target.value)} />
+              ref={nomeCompletoRef} />
           </div>
           <div>
             <input type="text"
@@ -88,11 +87,11 @@ function App() {
               value={password}
               onChange={e => setPassword(e.target.value)} />
             <strong style={{ color: isPasswordValid ? "green" : "red" }}>
-              {isPasswordValid ? "Username valido" : "Almeno 8 caratteri"}
+              {isPasswordValid ? "Username valido" : "8 caratteri, lettera, numero e simbolo"}
             </strong>
           </div>
           <div>
-            <select value={specializzazione} onChange={e => setSpecializzazione(e.target.value)}>
+            <select ref={specializzazioneRef}>
               <option value="default">Seleziona una specializzazione</option>
               <option value="fullstack">Full Stack</option>
               <option value="frontend">Frontend</option>
@@ -101,11 +100,11 @@ function App() {
           </div>
           <div>
             <input type="number"
-              value={anniEsperienza}
-              onChange={e => setAnniEsperienza(e.target.value)} />
+              placeholder="Anni di esperienza"
+              ref={anniEsperienzaRef} />
           </div>
           <div>
-            <textarea type="text"
+            <textarea
               placeholder="Descrizione..."
               value={descrizione}
               onChange={e => setDescrizione(e.target.value)} />
