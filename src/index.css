@@ -1,3 +1,16 @@
 div {
     margin-bottom: 10px;
 }
+
+input {
+    padding: 5px;
+    border-radius: 3px;
+}
+
+select {
+    padding: 5px;
+}
+
+strong {
+    display: block;
+}
